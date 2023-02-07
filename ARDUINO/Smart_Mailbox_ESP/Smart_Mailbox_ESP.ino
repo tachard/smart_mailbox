@@ -51,7 +51,7 @@ void setup() {
                                                                        DEVICE_TIME_CHARACTERISTIC_UUID,
                                                                        BLECharacteristic::PROPERTY_READ
                                                                      );
-  pDeviceTimeLevelCharacteristic->setValue("Battery level");
+  pDeviceTimeCharacteristic->setValue("Device Time");
 
   // Set the battery service and battery level characteristic
   BLEService *pLoadCellService = pServer->createService(LOAD_CELL_SERVICE_UUID);
@@ -59,9 +59,21 @@ void setup() {
                                                                        LOAD_CELL_CHARACTERISTIC_UUID,
                                                                        BLECharacteristic::PROPERTY_READ
                                                                      );
+  pLoadCellCharacteristic->setValue("Load cell");
+
+  // Start services
+  pBatteryService->start();
+  pDeviceTimeService->start();
+  pLoadCellService->start();
+
+  // Add advertising : Say that it's available
+  BLEAdvertising *pAdvertising = pServer->getAdvertising();
+  pAdvertising->start();
 }
 
 void loop() {
   // put your main code here, to run repeatedly:
 
+  // Do nothing, even when someone connects.
+  delay(2000);
 }
