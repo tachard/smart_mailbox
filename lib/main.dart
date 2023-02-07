@@ -29,6 +29,9 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    var theme = Theme.of(context);
+    var style =
+        theme.textTheme.bodyText2!.copyWith(color: theme.colorScheme.onPrimary);
     Widget page;
 
     switch (currentPageIndex) {
@@ -44,6 +47,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
     return Scaffold(
       bottomNavigationBar: NavigationBar(
+        backgroundColor: theme.colorScheme.primary,
         onDestinationSelected: (int index) {
           setState(() {
             currentPageIndex = index;
