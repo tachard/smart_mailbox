@@ -13,11 +13,9 @@
 #include <BLE2902.h>
 
 // Constants
-#define BATTERY_SERVICE_UUID              "0x180F" //Service to get access to battery level
-#define BATTERY_LEVEL_CHARACTERISTIC_UUID "0x2A19" //Characteristic for battery level
-
-#define DEVICE_TIME_SERVICE_UUID          "0x1847" //Service to get device time
-#define DEVICE_TIME_CHARACTERISTIC_UUID   "0x2B90" //Characteristic to get device time
+#define BLE_DEVICE_NAME                   "SmartMailboxAchard"
+#define BATTERY_SERVICE_UUID              "0000180F-0000-1000-8000-00805f9b34fb" //Service to get access to battery level
+#define BATTERY_LEVEL_CHARACTERISTIC_UUID "00002a19-0000-1000-8000-00805f9b34fb" //Characteristic for battery level
 
 #define LOAD_CELL_SERVICE_UUID            "c961649c-2b90-4add-ad60-21a9f26c048a" //Service to get load cell weight
 #define LOAD_CELL_CHARACTERISTIC_UUID     "99e8a6f3-85c2-4fb8-98d8-7e748c61b9c7" //Characteristic to get load cell weight
@@ -33,7 +31,6 @@ int loopCount = 0;
 int delai = 0;
 BLEServer* pServer = NULL;
 BLECharacteristic* pBatteryLevelCharacteristic = NULL;
-BLECharacteristic* pDeviceTimeCharacteristic = NULL;
 BLECharacteristic* pLoadCellCharacteristic = NULL;
 bool deviceConnected = false;
 bool oldDeviceConnected = false;
@@ -57,7 +54,7 @@ void setup() {
   esp_sleep_enable_timer_wakeup(uS_TO_H_FACTOR * TIME_TO_SLEEP);
 
    //Create a BLE Device called "SmartMailbox Achard"
-  BLEDevice::init("SmartMailbox Achard");
+  BLEDevice::init(BLE_DEVICE_NAME);
 
   // Set the device as a server
   pServer = BLEDevice::createServer();
@@ -70,26 +67,16 @@ void setup() {
                                                                      );
   pBatteryLevelCharacteristic->setValue("Battery level");
 
-  // Set the device time service and device time characteristic
-  BLEService *pDeviceTimeService = pServer->createService(DEVICE_TIME_SERVICE_UUID);
-  pDeviceTimeCharacteristic = pDeviceTimeService->createCharacteristic(
-                                                                       DEVICE_TIME_CHARACTERISTIC_UUID,
-                                                                       BLECharacteristic::PROPERTY_READ
-                                                                     );
-  pDeviceTimeCharacteristic->setValue("Device Time");
-
   // Set the battery service and battery level characteristic
   BLEService *pLoadCellService = pServer->createService(LOAD_CELL_SERVICE_UUID);
   pLoadCellCharacteristic = pLoadCellService->createCharacteristic(
                                                                        LOAD_CELL_CHARACTERISTIC_UUID,
-                                                                       BLECharacteristic::PROPERTY_READ |
-                                                                       BLECharacteristic::PROPERTY_WRITE
+                                                                       BLECharacteristic::PROPERTY_READ
                                                                      );
   pLoadCellCharacteristic->setValue("Load cell");
 
   // Start services
   pBatteryService->start();
-  pDeviceTimeService->start();
   pLoadCellService->start();
 
   // Add advertising : Say that it's available
@@ -107,10 +94,8 @@ void loop() {
   // Notify if value has changed
     if (deviceConnected) {
         pBatteryLevelCharacteristic->setValue("New battery value");
-        pDeviceTimeCharacteristic->setValue("New device time value");
         pLoadCellCharacteristic->setValue("New load cell value");
         pBatteryLevelCharacteristic->notify();
-        pDeviceTimeCharacteristic->notify();
         pLoadCellCharacteristic->notify();
         delai = 3;
         delay(delai); // bluetooth stack will go into congestion, if too many packets are sent, in 6 hours test i was able to go as low as 3ms

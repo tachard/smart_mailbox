@@ -15,18 +15,18 @@ class SmartMailboxApp extends StatelessWidget {
           useMaterial3: true,
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.amber),
         ),
-        home: MyHomePage());
+        home: BottomNavBar());
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key});
+class BottomNavBar extends StatefulWidget {
+  const BottomNavBar({super.key});
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<BottomNavBar> createState() => _BottomNavBarState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _BottomNavBarState extends State<BottomNavBar> {
   int currentPageIndex = 0;
 
   @override
