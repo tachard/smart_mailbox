@@ -1,16 +1,20 @@
 import 'package:flutter/material.dart';
 
 class ConnectivityCard extends StatelessWidget {
-  ConnectivityCard(this._connected, this._scanStarted);
+  ConnectivityCard(
+      this._scanning, this._discovered, this._connected, this._onNotConnected);
 
+  final bool _scanning;
+  final bool _discovered;
   final bool _connected;
-  final bool _scanStarted;
+  final Function _onNotConnected;
 
   @override
   Widget build(BuildContext context) {
     Icon icon;
     Text text;
-    if (_scanStarted) {
+
+    if (_scanning) {
       icon = Icon(
         Icons.bluetooth_searching,
         color: Colors.amber,
@@ -18,6 +22,15 @@ class ConnectivityCard extends StatelessWidget {
       );
       text = Text("En recherche de boîte aux lettres",
           style: TextStyle(fontSize: 20));
+    }
+
+    if (_discovered) {
+      icon = Icon(
+        Icons.bluetooth,
+        color: Colors.amber,
+        size: 48,
+      );
+      text = Text("Pairage", style: TextStyle(fontSize: 20));
     }
     if (_connected) {
       icon = Icon(
@@ -33,17 +46,19 @@ class ConnectivityCard extends StatelessWidget {
         color: Colors.red,
         size: 48,
       );
-      text = Text("Boîte au lettres non connectée",
+      text = Text("Boîte aux lettres non connectée",
           style: TextStyle(fontSize: 20));
     }
 
-    return Center(
-      child: Card(
-        child: ListTile(
-          leading: icon,
-          title: text,
-        ),
-      ),
-    );
+    return InkWell(
+        onTap: ((() => !_connected ? _onNotConnected : {})),
+        child: Center(
+          child: Card(
+            child: ListTile(
+              leading: icon,
+              title: text,
+            ),
+          ),
+        ));
   }
 }

@@ -81,6 +81,10 @@ void setup() {
 
   // Add advertising : Say that it's available
   BLEAdvertising *pAdvertising = pServer->getAdvertising();
+  pAdvertising->addServiceUUID(BATTERY_SERVICE_UUID);
+  pAdvertising->addServiceUUID(LOAD_CELL_SERVICE_UUID);
+  pAdvertising->setScanResponse(true);
+  pAdvertising->setMinPreferred(0x06); 
   pAdvertising->start();
 }
 

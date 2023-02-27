@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'smart_mailbox.dart';
-import 'la_poste_api.dart';
+import 'screens/smart_mailbox.dart';
+import 'screens/la_poste_api.dart';
 
-void main() => runApp(const SmartMailboxApp());
+void main() => runApp(SmartMailboxApp());
 
 class SmartMailboxApp extends StatelessWidget {
   const SmartMailboxApp({super.key});
