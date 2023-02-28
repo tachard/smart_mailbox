@@ -1,11 +1,10 @@
 /*
  * Program for a smart mailbox :
- * Read the value of a HX711 input (load cell sensor)
+ * Read the value of a HX711 input (load cell sensor) //Still to do
  * And generating a BLE Server for displaying these
- * Use of deep sleep probably
+ * Use of deep sleep
  */
-
-
+ 
 // Packages to be included
 #include <BLEDevice.h>
 #include <BLEUtils.h>
@@ -65,7 +64,7 @@ void setup() {
                                                                        BATTERY_LEVEL_CHARACTERISTIC_UUID,
                                                                        BLECharacteristic::PROPERTY_READ
                                                                      );
-  pBatteryLevelCharacteristic->setValue("Battery level");
+  pBatteryLevelCharacteristic->setValue("100");
 
   // Set the battery service and battery level characteristic
   BLEService *pLoadCellService = pServer->createService(LOAD_CELL_SERVICE_UUID);
@@ -73,7 +72,7 @@ void setup() {
                                                                        LOAD_CELL_CHARACTERISTIC_UUID,
                                                                        BLECharacteristic::PROPERTY_READ
                                                                      );
-  pLoadCellCharacteristic->setValue("Load cell");
+  pLoadCellCharacteristic->setValue("3500");
 
   // Start services
   pBatteryService->start();
@@ -97,8 +96,8 @@ void loop() {
 
   // Notify if value has changed
     if (deviceConnected) {
-        pBatteryLevelCharacteristic->setValue("New battery value");
-        pLoadCellCharacteristic->setValue("New load cell value");
+        pBatteryLevelCharacteristic->setValue("100");
+        pLoadCellCharacteristic->setValue("3500");
         pBatteryLevelCharacteristic->notify();
         pLoadCellCharacteristic->notify();
         delai = 3;
@@ -109,7 +108,6 @@ void loop() {
         delai = 500;
         delay(500); // give the bluetooth stack the chance to get things ready
         pServer->startAdvertising(); // restart advertising
-        Serial.println("start advertising");
         oldDeviceConnected = deviceConnected;
     }
     // Connexion

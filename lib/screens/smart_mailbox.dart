@@ -18,6 +18,7 @@ class _SmartMailBoxState extends State<SmartMailBox> {
   var _failed = false;
   var _connected = false;
   var _scanning = false;
+  var _firstConnection = true;
 
   final _deviceName = "SmartMailboxAchard";
   final _bleServices = {
@@ -34,8 +35,8 @@ class _SmartMailBoxState extends State<SmartMailBox> {
   late QualifiedCharacteristic _batteryCharac;
   late QualifiedCharacteristic _weightCharac;
 
-  late int _batteryValue;
-  late int _weightValue;
+  int _batteryValue = -1;
+  int _weightValue = -1;
 
   void _scanDevice() async {
     // Handling permission
@@ -109,28 +110,23 @@ class _SmartMailBoxState extends State<SmartMailBox> {
 
   void _readCharacteristics(QualifiedCharacteristic batteryCharac,
       QualifiedCharacteristic weightCharac) {
-    _ble.subscribeToCharacteristic(batteryCharac).listen((data) {
-      // code to handle incoming data
-      setState(() {
-        _batteryValue = int.parse(String.fromCharCodes(data));
-      });
-    }, onError: (dynamic error) {
-      // code to handle errors
-      setState(() {
-        _batteryValue = -1;
-      });
-    });
-    _ble.subscribeToCharacteristic(weightCharac).listen((data) {
-      // code to handle incoming data
-      setState(() {
-        _weightValue = int.parse(String.fromCharCodes(data));
-      });
-    }, onError: (dynamic error) {
-      // code to handle errors
-      setState(() {
-        _weightValue = -1;
-      });
-    });
+    print("WRITING");
+    _ble.readCharacteristic(batteryCharac).then(
+      (value) {
+        print("BATTERY WRITTEN");
+        setState(() {
+          _batteryValue = int.parse(String.fromCharCodes(value));
+        });
+      },
+    );
+    _ble.readCharacteristic(weightCharac).then(
+      (value) {
+        print("WEIGHT WRITTEN");
+        setState(() {
+          _weightValue = int.parse(String.fromCharCodes(value));
+        });
+      },
+    );
   }
 
   @override
@@ -170,7 +166,11 @@ class _SmartMailBoxState extends State<SmartMailBox> {
 
     // Ready to go
     if (_connected) {
-      _readCharacteristics(_batteryCharac, _weightCharac);
+      if (_firstConnection) {
+        _readCharacteristics(_batteryCharac, _weightCharac);
+        _firstConnection = false;
+      }
+
       return (Column(mainAxisAlignment: MainAxisAlignment.center, children: [
         WeightCard(_weightValue),
         BatteryCard(_batteryValue),
