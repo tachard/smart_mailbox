@@ -15,7 +15,9 @@ class SmartMailboxApp extends StatelessWidget {
           useMaterial3: true,
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.amber),
         ),
-        home: BottomNavBar());
+        home: SafeArea(
+          child: BottomNavBar(),
+        ));
   }
 }
 

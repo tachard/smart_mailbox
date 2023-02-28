@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 
 class ConnectivityCard extends StatelessWidget {
-  ConnectivityCard(
-      this._scanning, this._discovered, this._connected, this._onNotConnected);
+  ConnectivityCard(this._scanning, this._discovered, this._connected);
 
   final bool _scanning;
   final bool _discovered;
   final bool _connected;
-  final Function _onNotConnected;
 
   @override
   Widget build(BuildContext context) {
@@ -50,15 +48,13 @@ class ConnectivityCard extends StatelessWidget {
           style: TextStyle(fontSize: 20));
     }
 
-    return InkWell(
-        onTap: ((() => !_connected ? _onNotConnected : {})),
-        child: Center(
-          child: Card(
-            child: ListTile(
-              leading: icon,
-              title: text,
-            ),
-          ),
-        ));
+    return Center(
+      child: Card(
+        child: ListTile(
+          leading: icon,
+          title: text,
+        ),
+      ),
+    );
   }
 }
