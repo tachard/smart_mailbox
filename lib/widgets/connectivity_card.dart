@@ -19,7 +19,10 @@ class ConnectivityCard extends StatelessWidget {
         size: 48,
       );
       text = Text("En recherche de boîte aux lettres",
-          style: TextStyle(fontSize: 20));
+          style: Theme.of(context)
+              .textTheme
+              .bodyLarge!
+              .copyWith(fontWeight: FontWeight.bold));
     }
 
     if (_discovered) {
@@ -28,7 +31,11 @@ class ConnectivityCard extends StatelessWidget {
         color: Colors.amber,
         size: 48,
       );
-      text = Text("Pairage", style: TextStyle(fontSize: 20));
+      text = Text("Pairage",
+          style: Theme.of(context)
+              .textTheme
+              .bodyLarge!
+              .copyWith(fontWeight: FontWeight.bold));
     }
     if (_connected) {
       icon = Icon(
@@ -37,15 +44,21 @@ class ConnectivityCard extends StatelessWidget {
         size: 48,
       );
       text = Text("Connecté à la boîte aux lettres",
-          style: TextStyle(fontSize: 20));
+          style: Theme.of(context)
+              .textTheme
+              .bodyLarge!
+              .copyWith(fontWeight: FontWeight.bold));
     } else {
       icon = Icon(
         Icons.bluetooth_disabled,
         color: Colors.red,
         size: 48,
       );
-      text = Text("Boîte aux lettres non connectée",
-          style: TextStyle(fontSize: 20));
+      text = Text("Boîte aux lettres non connectée. Se connecter ?",
+          style: Theme.of(context)
+              .textTheme
+              .bodyLarge!
+              .copyWith(fontWeight: FontWeight.bold));
     }
 
     return Center(

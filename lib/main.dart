@@ -10,11 +10,11 @@ class SmartMailboxApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        title: 'Flutter Learn',
+        title: 'Smart Mailbox',
+        debugShowCheckedModeBanner: false,
         theme: ThemeData(
-          useMaterial3: true,
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.amber),
-        ),
+            useMaterial3: true,
+            colorScheme: ColorScheme.fromSeed(seedColor: Colors.amber)),
         home: SafeArea(
           child: BottomNavBar(),
         ));
@@ -34,8 +34,6 @@ class _BottomNavBarState extends State<BottomNavBar> {
   @override
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
-    var style =
-        theme.textTheme.bodyText2!.copyWith(color: theme.colorScheme.onPrimary);
     Widget page;
 
     switch (currentPageIndex) {

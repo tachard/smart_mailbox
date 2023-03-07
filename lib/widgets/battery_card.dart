@@ -32,7 +32,10 @@ class BatteryCard extends StatelessWidget {
         child: ListTile(
           leading: icon,
           title: Text('Niveau de batterie : $battery%',
-              style: TextStyle(fontSize: 20)),
+              style: Theme.of(context)
+                  .textTheme
+                  .bodyLarge!
+                  .copyWith(fontWeight: FontWeight.bold)),
         ),
       ),
     );

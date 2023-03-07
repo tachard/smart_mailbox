@@ -7,10 +7,10 @@ class WeightCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    TextStyle infoStyle = TextStyle(
-      fontSize: 20,
-      fontStyle: FontStyle.italic,
-    );
+    var infoStyle = Theme.of(context)
+        .textTheme
+        .caption!
+        .copyWith(fontSize: 20, fontStyle: FontStyle.italic);
     Text info;
     if (weight < 10) {
       info = Text("Peu ou pas de courrier", style: infoStyle);
@@ -19,10 +19,11 @@ class WeightCard extends StatelessWidget {
     } else if (weight >= 100 && weight < 1000) {
       info = Text("Beaucoup de lettres ou un colis", style: infoStyle);
     } else {
-      info = Text("Des lettres et des colis", style: infoStyle);
+      info = Text("Enormément de lettres et de colis", style: infoStyle);
     }
     return Center(
       child: Card(
+        color: Theme.of(context).colorScheme.primaryContainer,
         child: Padding(
           padding: const EdgeInsets.all(10),
           child: SizedBox.square(
@@ -33,13 +34,13 @@ class WeightCard extends StatelessWidget {
                 children: [
                   Text(
                     "Poids du courrier :",
-                    style: TextStyle(fontSize: 20),
+                    style: Theme.of(context).textTheme.headline4,
                   ),
-                  Text('${weight}g',
-                      style: TextStyle(
-                        fontSize: 40,
-                        fontWeight: FontWeight.bold,
-                      )),
+                  Text(
+                    '${weight}g',
+                    style: Theme.of(context).textTheme.displayLarge!.copyWith(
+                        color: Colors.black, fontWeight: FontWeight.bold),
+                  ),
                   info,
                 ],
               ),

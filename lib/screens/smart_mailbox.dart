@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import "package:flutter_reactive_ble/flutter_reactive_ble.dart";
-import 'dart:async';
 import 'package:smart_mailbox/widgets/battery_card.dart';
 import 'package:smart_mailbox/widgets/connectivity_card.dart';
 import 'dart:io' show Platform;
@@ -94,6 +93,7 @@ class _SmartMailBoxState extends State<SmartMailBox> {
                 deviceId: event.deviceId);
             setState(() {
               _connected = true;
+              _firstConnection = true;
             });
             print("CONNECTED");
             break;
@@ -101,6 +101,9 @@ class _SmartMailBoxState extends State<SmartMailBox> {
         // Can add various state state updates on disconnect
         case DeviceConnectionState.disconnected:
           {
+            setState(() {
+              _connected = false;
+            });
             break;
           }
         default:
@@ -110,10 +113,10 @@ class _SmartMailBoxState extends State<SmartMailBox> {
 
   void _readCharacteristics(QualifiedCharacteristic batteryCharac,
       QualifiedCharacteristic weightCharac) {
-    print("WRITING");
+    print("READING");
     _ble.readCharacteristic(batteryCharac).then(
       (value) {
-        print("BATTERY WRITTEN");
+        print("BATTERY READ");
         setState(() {
           _batteryValue = int.parse(String.fromCharCodes(value));
         });
@@ -121,7 +124,7 @@ class _SmartMailBoxState extends State<SmartMailBox> {
     );
     _ble.readCharacteristic(weightCharac).then(
       (value) {
-        print("WEIGHT WRITTEN");
+        print("WEIGHT READ");
         setState(() {
           _weightValue = int.parse(String.fromCharCodes(value));
         });
@@ -155,11 +158,7 @@ class _SmartMailBoxState extends State<SmartMailBox> {
       return (Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Container(
-            margin: const EdgeInsets.all(8.0),
-            child: CircularProgressIndicator(),
-          ),
-          ConnectivityCard(_scanning, _device == null, _connected)
+          Center(child: CircularProgressIndicator()),
         ],
       ));
     }
@@ -173,6 +172,7 @@ class _SmartMailBoxState extends State<SmartMailBox> {
 
       return (Column(mainAxisAlignment: MainAxisAlignment.center, children: [
         WeightCard(_weightValue),
+        SizedBox(height: 20),
         BatteryCard(_batteryValue),
         ConnectivityCard(_scanning, _device == null, _connected)
       ]));
