@@ -1,3 +1,5 @@
+// Screen where we can connect to the smart mailbox.
+
 import 'package:flutter/material.dart';
 import "package:flutter_reactive_ble/flutter_reactive_ble.dart";
 import 'package:smart_mailbox/widgets/battery_card.dart';
@@ -14,11 +16,13 @@ class SmartMailBox extends StatefulWidget {
 }
 
 class _SmartMailBoxState extends State<SmartMailBox> {
+  //State variables
   var _failed = false;
   var _connected = false;
   var _scanning = false;
   var _firstConnection = true;
 
+  //Informations about smart mailbox device
   final _deviceName = "SmartMailboxAchard";
   final _bleServices = {
     "Battery": Uuid.parse("0000180F-0000-1000-8000-00805f9b34fb"),
@@ -29,6 +33,7 @@ class _SmartMailBoxState extends State<SmartMailBox> {
     "Weight": Uuid.parse("99e8a6f3-85c2-4fb8-98d8-7e748c61b9c7")
   };
 
+  // Bluetooth Low Energy Variables.
   final _ble = FlutterReactiveBle();
   DiscoveredDevice? _device;
   late QualifiedCharacteristic _batteryCharac;
@@ -37,6 +42,8 @@ class _SmartMailBoxState extends State<SmartMailBox> {
   int _batteryValue = -1;
   int _weightValue = -1;
 
+  // Private function.
+  // Authorize bluetooth use. Then search for the wanted device
   void _scanDevice() async {
     // Handling permission
     print("WAITING PERMISSIONS");
@@ -73,6 +80,8 @@ class _SmartMailBoxState extends State<SmartMailBox> {
     }
   }
 
+  // Private function.
+  // If device is found, connect to it.
   void _connectToDevice() async {
     print("CONNECTING");
     _ble.connectToAdvertisingDevice(
@@ -83,6 +92,7 @@ class _SmartMailBoxState extends State<SmartMailBox> {
         // We're connected and good to go!
         case DeviceConnectionState.connected:
           {
+            // Store characteristics in variables
             _batteryCharac = QualifiedCharacteristic(
                 serviceId: _bleServices["Battery"]!,
                 characteristicId: _bleCharacteristics["Battery"]!,
@@ -103,6 +113,7 @@ class _SmartMailBoxState extends State<SmartMailBox> {
           {
             setState(() {
               _connected = false;
+              _device = null;
             });
             break;
           }
@@ -111,6 +122,8 @@ class _SmartMailBoxState extends State<SmartMailBox> {
     });
   }
 
+  // Private function
+  // Once characteristics are stored, retrieve value to them.
   void _readCharacteristics(QualifiedCharacteristic batteryCharac,
       QualifiedCharacteristic weightCharac) {
     print("READING");
@@ -134,7 +147,7 @@ class _SmartMailBoxState extends State<SmartMailBox> {
 
   @override
   Widget build(BuildContext context) {
-    //Not connected nor scanning
+    //Display only a touchable ConnectivityCard if not connected nor scanning
     if (!_connected && !_scanning && _device == null) {
       return (Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -149,12 +162,15 @@ class _SmartMailBoxState extends State<SmartMailBox> {
         ],
       ));
     }
+
     //Waiting to connect
     if (!_connected && (_scanning || _device != null)) {
       if (!_scanning) {
+        // Only called if device is discovered
         _connectToDevice();
       }
 
+      // Return a centered loading spinner.
       return (Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
