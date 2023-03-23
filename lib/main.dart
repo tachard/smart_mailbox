@@ -23,7 +23,8 @@ class SmartMailboxApp extends StatelessWidget {
         home: Scaffold(
           appBar: AppBar(
               leading: const Icon(Icons.mail_outline),
-              title: const Text("Smart Mailbox")),
+              title: const Text("Smart Mailbox"),
+              backgroundColor: Colors.amber),
           body: const SmartMailBox(),
         ));
   }
