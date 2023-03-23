@@ -12,6 +12,8 @@ class WeightCard extends StatelessWidget {
         .caption!
         .copyWith(fontSize: 20, fontStyle: FontStyle.italic);
     Text info;
+
+    // Choose the info text depending on the weight
     if (weight < 10) {
       info = Text("Peu ou pas de courrier", style: infoStyle);
     } else if (weight >= 10 && weight < 100) {
@@ -21,6 +23,7 @@ class WeightCard extends StatelessWidget {
     } else {
       info = Text("Enormément de lettres et de colis", style: infoStyle);
     }
+    
     return Center(
       child: Card(
         color: Theme.of(context).colorScheme.primaryContainer,

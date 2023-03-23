@@ -12,6 +12,7 @@ class ConnectivityCard extends StatelessWidget {
     Icon icon;
     Text text;
 
+    // Choose icon and text depending on the state of the system.
     if (_scanning) {
       icon = Icon(
         Icons.bluetooth_searching,

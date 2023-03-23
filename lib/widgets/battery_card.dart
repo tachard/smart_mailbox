@@ -7,6 +7,7 @@ class BatteryCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    //Define the icon depending on the level of battery
     Icon icon;
     if (battery >= 67) {
       icon = Icon(
@@ -27,6 +28,8 @@ class BatteryCard extends StatelessWidget {
         size: 48,
       );
     }
+
+    // Display a centered card with a leading icon and the level of battery
     return Center(
       child: Card(
         child: ListTile(

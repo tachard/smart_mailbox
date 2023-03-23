@@ -65,11 +65,13 @@ class _SmartMailBoxState extends State<SmartMailBox> {
       setState(() {
         _scanning = true;
       });
+      // Scan for a device with services required
       var scanStream = _ble.scanForDevices(
         withServices: [_bleServices["Battery"]!],
       );
       print("LISTENING");
 
+      // Get the device found
       var myDevice =
           await scanStream.firstWhere((device) => device.name == _deviceName);
       setState(() {
@@ -84,6 +86,7 @@ class _SmartMailBoxState extends State<SmartMailBox> {
   // If device is found, connect to it.
   void _connectToDevice() async {
     print("CONNECTING");
+    //Try to connect to a device.
     _ble.connectToAdvertisingDevice(
         id: _device!.id,
         prescanDuration: const Duration(seconds: 1),
@@ -127,6 +130,7 @@ class _SmartMailBoxState extends State<SmartMailBox> {
   void _readCharacteristics(QualifiedCharacteristic batteryCharac,
       QualifiedCharacteristic weightCharac) {
     print("READING");
+    //Read the battery characteristic
     _ble.readCharacteristic(batteryCharac).then(
       (value) {
         print("BATTERY READ");
@@ -135,6 +139,7 @@ class _SmartMailBoxState extends State<SmartMailBox> {
         });
       },
     );
+    //Read the weight caracteristic
     _ble.readCharacteristic(weightCharac).then(
       (value) {
         print("WEIGHT READ");
