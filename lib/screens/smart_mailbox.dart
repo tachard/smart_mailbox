@@ -16,11 +16,19 @@ class SmartMailBox extends StatefulWidget {
 }
 
 class _SmartMailBoxState extends State<SmartMailBox> {
+  // Bluetooth Low Energy Variables.
+  final _ble = FlutterReactiveBle();
+  DiscoveredDevice? _device;
+  late QualifiedCharacteristic _batteryCharac;
+  late QualifiedCharacteristic _weightCharac;
+
   //State variables
   var _failed = false;
   var _connected = false;
   var _scanning = false;
   var _firstConnection = true;
+  BleStatus bleStatus = BleStatus.unknown;
+  
 
   //Informations about smart mailbox device
   final _deviceName = "SmartMailboxAchard";
@@ -33,34 +41,48 @@ class _SmartMailBoxState extends State<SmartMailBox> {
     "Weight": Uuid.parse("99e8a6f3-85c2-4fb8-98d8-7e748c61b9c7")
   };
 
-  // Bluetooth Low Energy Variables.
-  final _ble = FlutterReactiveBle();
-  DiscoveredDevice? _device;
-  late QualifiedCharacteristic _batteryCharac;
-  late QualifiedCharacteristic _weightCharac;
-
   int _batteryValue = -1;
   int _weightValue = -1;
+
+  void _handlePermission() async {
+    var bleStatusStream;
+    bleStatusStream = _ble.statusStream.listen((status) {
+      switch (status) {
+        case BleStatus.locationServicesDisabled:
+          await openAppSettings();
+          break;
+        case BleStatus.unauthorized:
+          if (Platform.isAndroid) {
+            await Permission.location.request();
+            await Permission.bluetoothScan.request();
+            await Permission.bluetoothConnect.request();
+          }
+          break;
+        case BleStatus.ready:
+          
+          break;
+        case BleStatus.unsupported:
+
+          break;
+        default:
+        // Should be BleStatus.unknown
+      }
+      if(status==BleStatus.ready){
+        bleStatusStream.cancel();
+      }
+      setState(() {
+            bleStatus = status;
+          });
+    });
+  }
+
 
   // Private function.
   // Authorize bluetooth use. Then search for the wanted device
   void _scanDevice() async {
     // Handling permission
     print("WAITING PERMISSIONS");
-    bool permGranted = false;
-
-    if (Platform.isAndroid) {
-      PermissionStatus locationPermission = await Permission.location.request();
-      PermissionStatus bleScan = await Permission.bluetoothScan.request();
-      PermissionStatus bleConnect = await Permission.bluetoothConnect.request();
-      if (locationPermission == PermissionStatus.granted &&
-          bleScan == PermissionStatus.granted &&
-          bleConnect == PermissionStatus.granted) permGranted = true;
-    } else if (Platform.isIOS) {
-      permGranted = true;
-    }
-
-    if (permGranted) {
+    if (_ble.status == BleStatus.ready) {
       print("SCAN MAIN LOGIC");
       setState(() {
         _scanning = true;
