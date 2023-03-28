@@ -12,30 +12,6 @@ class Device {
     "Weight": Uuid.parse("99e8a6f3-85c2-4fb8-98d8-7e748c61b9c7")
   };
 
-  // Class variables
-  FlutterReactiveBle _ble;
-  bool connected = false;
-  DiscoveredDevice? _device;
-  QualifiedCharacteristic? _batteryCharacteristic;
-  QualifiedCharacteristic? _weightCharacteristic;
-
-  //Getters
-  Stream<List<int>>? get weightStream => _weightCharacteristic == null ? null : _ble.subscribeToCharacteristic(_weightCharacteristic!);
-  Stream<List<int>>? get batteryStream => _batteryCharacteristic == null ? null : _ble.subscribeToCharacteristic(_batteryCharacteristic!);
-
-  // Internal constructor
-  Device._create(this._ble);
-
-  // Public constructor (async factory)
-  static Future<Device> create(FlutterReactiveBle ble) async {
-    var device = Device._create(ble);
-    await device._scanDevice();
-    if (device._device == null) return device;
-    await device._connectToDevice();
-    if (device._batteryCharacteristic == null) return device;
-    return device;
-  }
-
   // Private function.
   // Search for the wanted device
   Future<void> _scanDevice() async {
