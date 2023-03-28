@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import "package:flutter_reactive_ble/flutter_reactive_ble.dart";
+import 'package:smart_mailbox/widgets/battery_card.dart';
+import 'package:smart_mailbox/widgets/weight_card.dart';
 import "../api/device.dart";
-import "device_fully_operational.dart";
 
 class DeviceConnectionChecker extends StatefulWidget {
   DeviceConnectionChecker({super.key, required this.ble});
@@ -94,10 +95,10 @@ class _DeviceConnectionCheckerState extends State<DeviceConnectionChecker> {
                           deviceId: device!.id);
 
                       children = [
-                        DeviceFullyOperational(
-                            ble: widget.ble,
-                            battery: batteryCharacteristic,
-                            weight: weightCharacteristic),
+                        WeightCard(
+                            ble: widget.ble, weight: weightCharacteristic),
+                        BatteryCard(
+                            ble: widget.ble, battery: batteryCharacteristic),
                         Card(
                           child: ListTile(
                               leading: Icon(
