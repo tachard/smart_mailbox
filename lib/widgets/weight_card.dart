@@ -19,8 +19,8 @@ class _WeightCardState extends State<WeightCard> {
         .caption!
         .copyWith(fontSize: 20, fontStyle: FontStyle.italic);
 
-    return StreamBuilder(
-        stream: widget.ble.subscribeToCharacteristic(widget.weight),
+    return FutureBuilder(
+        future: widget.ble.readCharacteristic(widget.weight),
         builder: (context, snapshot) {
           Widget central;
           String info;
@@ -29,8 +29,9 @@ class _WeightCardState extends State<WeightCard> {
                 size: 96, color: Theme.of(context).colorScheme.error);
             info = "Erreur de récupération du poids.";
           } else {
+            print(snapshot.connectionState);
             switch (snapshot.connectionState) {
-              case ConnectionState.active:
+              case ConnectionState.done:
                 // Choose the info text depending on the weight
                 var weight = int.parse(String.fromCharCodes(snapshot.data!));
                 if (weight < 10) {

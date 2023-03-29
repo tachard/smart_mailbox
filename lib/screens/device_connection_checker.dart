@@ -41,14 +41,14 @@ class _DeviceConnectionCheckerState extends State<DeviceConnectionChecker> {
                 children = [
                   Card(
                     child: ListTile(
-                      leading: Icon(Icons.check, color: Colors.green),
-                      title: Text("Appareil trouvé !"),
-                    ),
+                        leading: Icon(Icons.check, color: Colors.green),
+                        title: Text("Appareil trouvé ! Se connecter ?"),
+                        onTap: () => setState(() {
+                              device = snapshot.data;
+                            })),
                   )
                 ];
-                setState(() {
-                  device = snapshot.data;
-                });
+
                 break;
               default:
                 // while device is not found
@@ -90,8 +90,8 @@ class _DeviceConnectionCheckerState extends State<DeviceConnectionChecker> {
                           characteristicId: Device.characteristics["Battery"]!,
                           deviceId: device!.id);
                       var weightCharacteristic = QualifiedCharacteristic(
-                          serviceId: Device.services["Battery"]!,
-                          characteristicId: Device.characteristics["Battery"]!,
+                          serviceId: Device.services["Weight"]!,
+                          characteristicId: Device.characteristics["Weight"]!,
                           deviceId: device!.id);
 
                       children = [

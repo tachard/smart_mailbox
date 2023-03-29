@@ -14,8 +14,8 @@ class BatteryCard extends StatefulWidget {
 class _BatteryCardState extends State<BatteryCard> {
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder(
-      stream: widget.ble.subscribeToCharacteristic(widget.battery),
+    return FutureBuilder(
+      future: widget.ble.readCharacteristic(widget.battery),
       builder: (context, snapshot) {
         Widget leadingIcon;
         String text;
@@ -26,7 +26,7 @@ class _BatteryCardState extends State<BatteryCard> {
           text = "Erreur de lecture";
         } else {
           switch (snapshot.connectionState) {
-            case ConnectionState.active:
+            case ConnectionState.done:
               var battery = int.parse(String.fromCharCodes(snapshot.data!));
               if (battery >= 67) {
                 leadingIcon = Icon(
