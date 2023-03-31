@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'screens/smart_mailbox.dart';
+import 'screens/ble_status_checker.dart';
 
 //Root of the app
 void main() => runApp(const SmartMailboxApp());
@@ -25,7 +25,7 @@ class SmartMailboxApp extends StatelessWidget {
               leading: const Icon(Icons.mail_outline),
               title: const Text("Smart Mailbox"),
               backgroundColor: Colors.amber),
-          body: const SmartMailBox(),
+          body: const BleStatusChecker(),
         ));
   }
 }
