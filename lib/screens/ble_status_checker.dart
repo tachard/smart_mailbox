@@ -1,4 +1,4 @@
-// Screen where we can connect to the smart mailbox.
+// Screen where we check the BLE Status of the host device
 
 import 'package:flutter/material.dart';
 import "package:flutter_reactive_ble/flutter_reactive_ble.dart";
@@ -18,11 +18,12 @@ class _BleStatusCheckerState extends State<BleStatusChecker> {
 
   @override
   Widget build(BuildContext context) {
-    // Show something epending on host BLE status
+    // Show something depending on host BLE status stream
     return StreamBuilder(
       stream: _ble.statusStream,
       builder: (context, snapshot) {
         List<Widget> children;
+        // If the stream has an error
         if (snapshot.hasError) {
           children = [
             Card(
@@ -34,8 +35,9 @@ class _BleStatusCheckerState extends State<BleStatusChecker> {
             )
           ];
         } else {
+          // Depending on the stream status
           switch (snapshot.connectionState) {
-            case ConnectionState.none:
+            case ConnectionState.none: // No stream, thus no data
               children = [
                 Card(
                   child: ListTile(
@@ -46,17 +48,17 @@ class _BleStatusCheckerState extends State<BleStatusChecker> {
                 )
               ];
               break;
-            case ConnectionState.waiting:
+            case ConnectionState
+                .waiting: // During the retrival of data, thus no data
               children = [
-                SizedBox(
-                    width: 60, height: 60, child: CircularProgressIndicator())
+                CircularProgressIndicator(),
               ];
               break;
             default:
               // ConnectionState.active || ConnectionState.done
               switch (snapshot.data) {
                 case BleStatus.ready:
-                  children = [DeviceConnectionChecker(ble:_ble)];
+                  children = [DeviceConnectionChecker(ble: _ble)];
                   break;
                 case BleStatus.unauthorized:
                   Permission.location.request();
@@ -113,8 +115,10 @@ class _BleStatusCheckerState extends State<BleStatusChecker> {
           }
         }
 
-        return Column(
-            mainAxisAlignment: MainAxisAlignment.center, children: children);
+        return Center(
+          child: Column(
+              mainAxisAlignment: MainAxisAlignment.center, children: children),
+        );
       },
     );
   }

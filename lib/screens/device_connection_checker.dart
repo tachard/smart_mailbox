@@ -1,3 +1,5 @@
+// Connect to device and retrieve characteristics informations
+
 import 'package:flutter/material.dart';
 import "package:flutter_reactive_ble/flutter_reactive_ble.dart";
 import 'package:smart_mailbox/widgets/battery_card.dart';
@@ -19,6 +21,7 @@ class _DeviceConnectionCheckerState extends State<DeviceConnectionChecker> {
 
   @override
   Widget build(BuildContext context) {
+    // If no device connected
     if (device == null) {
       return StreamBuilder(
         stream: widget.ble
@@ -39,6 +42,7 @@ class _DeviceConnectionCheckerState extends State<DeviceConnectionChecker> {
             switch (snapshot.connectionState) {
               case ConnectionState.active:
                 children = [
+                  // I haven't found how to setState automatically after build.
                   Card(
                     child: ListTile(
                         leading: Icon(Icons.check, color: Colors.green),
@@ -55,9 +59,11 @@ class _DeviceConnectionCheckerState extends State<DeviceConnectionChecker> {
                 children = [CircularProgressIndicator()];
             }
           }
-          return Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: children,
+          return Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: children,
+            ),
           );
         },
       );
@@ -123,9 +129,11 @@ class _DeviceConnectionCheckerState extends State<DeviceConnectionChecker> {
                   break;
               }
             }
-            return Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: children,
+            return Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: children,
+              ),
             );
           }));
     }

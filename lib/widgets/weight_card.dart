@@ -1,3 +1,5 @@
+// Read weight characteristic, then print it.
+
 import 'package:flutter/material.dart';
 import 'package:flutter_reactive_ble/flutter_reactive_ble.dart';
 
@@ -14,11 +16,13 @@ class WeightCard extends StatefulWidget {
 class _WeightCardState extends State<WeightCard> {
   @override
   Widget build(BuildContext context) {
+    // Reused info text style
     var infoStyle = Theme.of(context)
         .textTheme
         .caption!
         .copyWith(fontSize: 20, fontStyle: FontStyle.italic);
 
+    // Build depending of Future solve.
     return FutureBuilder(
         future: widget.ble.readCharacteristic(widget.weight),
         builder: (context, snapshot) {
@@ -32,6 +36,7 @@ class _WeightCardState extends State<WeightCard> {
             print(snapshot.connectionState);
             switch (snapshot.connectionState) {
               case ConnectionState.done:
+                // weight can be read.
                 // Choose the info text depending on the weight
                 var weight = int.parse(String.fromCharCodes(snapshot.data!));
                 if (weight < 10) {
