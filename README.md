@@ -42,28 +42,14 @@ git checkout [nom de branche]
 Afin de pouvoir lancer le projet, il faut préalablement installer le SDK Flutter dont le mode d'emploi est [ici](https://docs.flutter.dev/get-started/install).
 Pour lancer le projet, je recommande d'utiliser un émulateur Android ou son propre téléphone, le tutoriel est disponible [ici (partie *Run the app*)](https://docs.flutter.dev/get-started/test-drive?tab=vscode). Autrement, il est possible d'installer directement les exécutables sur son téléphone.
 
-## Installations sur le téléphone
+## Installation sur le téléphone
 
-L'objectif est d'installer l'un des exécutables présents [ici](https://github.com/tachard/smart_mailbox/releases). Pour chaque OS (Android ou iOS), il existe 2 exécutables :
+L'objectif est d'installer l'un des exécutables présents [ici](https://github.com/tachard/smart_mailbox/releases). Il existe 2 exécutables, uniquement pour Android :
 - Celle suffixée par test, prévue pour simuler sur le téléphone la présence du dispositif physique
 - Celle sans suffixe, prévue pour fonctionner avec l'ESP32 du dispositif physique.
-
-Dans la suite sera détaillée la procédure d'installation pour chaque OS.
-
-### Android
 
 Téléchargez l'exécutable en .apk dans l'onglet Releases du projet.
 
 Allez dans votre application de gestion des fichiers et lancez l'exécutable. Normalement, l'appareil vous demandera d'autoriser l'installation d'applications par des sources inconnues en vous redirigeant vers les paramètres de votre téléphone. Autorisez cela. Il se peut que vous deviez réessayer de lancer l'exécutable.
 
 Une fois l'installation finie, ouvrez l'application.
-
-### iOS
-
-Basé sur ce [tutoriel](https://www.androidphonesoft.com/blog/how-to-enable-unknown-sources-on-iphone/#How_do_I_enable_permission_for_unknown_sources_on_Iphone).
-
-Téléchargez l'exécutable en ... dans l'onglet Releases du projet.
-
-Allez dans les paramètres du téléphone et cherchez le menu **Général**. Appuyez sur le bouton **Profils et Gestion de l'appareil** et choisissez le profil sur lequel vous voulez installer l'application. Enflin cliquez sur le bouton **Faire confiance**.
-
-Normalement, vous devriez pouvoir lancer l'exécutable et l'installer.
