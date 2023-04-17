@@ -14,16 +14,17 @@ class QualifiedCharacteristic {
       required this.deviceId});
 
   Future<List<int>> readCharacteristic() async {
-    await Future.delayed(
+    return Future.delayed(
       const Duration(seconds: 1),
+      () {
+        if (characteristicId == Device.characteristics["Battery"]) {
+          return utf8.encode("97");
+        } else if (characteristicId == Device.characteristics["Weight"]) {
+          return utf8.encode("130");
+        } else {
+          throw Exception("Wrong Chracteristic");
+        }
+      },
     );
-
-    if (characteristicId == Device.characteristics["Battery"]) {
-      return utf8.encode("97");
-    } else if (characteristicId == Device.characteristics["Weight"]) {
-      return utf8.encode("130");
-    } else {
-      throw Exception("Wrong Chracteristic");
-    }
   }
 }

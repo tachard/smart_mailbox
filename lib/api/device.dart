@@ -17,19 +17,15 @@ class Device {
   // Static streams simulating ESP32 functionnalities
   static Stream<DiscoveredDevice> scanForDevices(
       {required List<Uuid> withServices}) async* {
-    if (withServices == services.values.toList()) {
-      while (true) {
-        await Future.delayed(const Duration(seconds: 1));
-        yield DiscoveredDevice(
-            id: "1",
-            name: "Smart Mailbox",
-            serviceData: {},
-            manufacturerData: Uint8List(1),
-            rssi: 1,
-            serviceUuids: services.values.toList());
-      }
-    } else {
-      throw Exception("Wrong services");
+    while (true) {
+      await Future.delayed(const Duration(seconds: 1));
+      yield DiscoveredDevice(
+          id: "1",
+          name: "Smart Mailbox",
+          serviceData: {},
+          manufacturerData: Uint8List(1),
+          rssi: 1,
+          serviceUuids: services.values.toList());
     }
   }
 
@@ -37,13 +33,7 @@ class Device {
       {required String id,
       required Duration prescanDuration,
       required List<Uuid> withServices}) async* {
-    if (id == "1" && withServices == services.values.toList()) {
-      while (true) {
-        await Future.delayed(const Duration(seconds: 1));
-        yield DeviceConnectionState.connected;
-      }
-    } else {
-      throw Exception("Wrong device id or services");
-    }
+    await Future.delayed(const Duration(seconds: 1));
+    yield DeviceConnectionState.connected;
   }
 }

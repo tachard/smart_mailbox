@@ -89,7 +89,7 @@ class _DeviceConnectionCheckerState extends State<DeviceConnectionChecker> {
               ];
             } else {
               switch (snapshot.connectionState) {
-                case ConnectionState.active:
+                case ConnectionState.done:
                   switch (snapshot.data!) {
                     case DeviceConnectionState.connected:
                       var batteryCharacteristic = qc.QualifiedCharacteristic(
