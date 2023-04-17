@@ -10,7 +10,7 @@ Il contient 2 dossiers :
 - Un dossier *Flutter* avec le code de l'application pour téléphone.
 
 Ce dossier *Flutter* dispose de beaucoup de dossiers utilisés pour la compilation. Les fichiers réellement modifiés sont :
-- */android/app/build.gradle* pour permettre l'utilisation de plugins sur Android.
+- */android/app/src/main/AndroidManifest.xml* pour permettre l'utilisation de plugins sur Android.
 - Le dossier */lib/* contient tous les fichiers propres au projet.
 
 ## Récupération du code
@@ -31,6 +31,11 @@ Vous disposez alos de quoi lire le projet d'application mobile.
 Le projet est versionné par Git. Il dispose de 2 branches :
 - *master* qui contient le code de l'application nécessitant un ESP32.
 - *test* qui contient le code l'application modifié, permettant de simuler l'ESP32 sans nécessairement en avoir un.
+
+Il est possible de passer de l'un à l'autre avec la commande :
+```
+git checkout [nom de branche]
+```
 
 ### Lancement du projet
 
