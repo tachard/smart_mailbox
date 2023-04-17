@@ -2,11 +2,12 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_reactive_ble/flutter_reactive_ble.dart';
+import "../api/qualified_characteristic.dart" as qc;
 
 class BatteryCard extends StatefulWidget {
   BatteryCard({super.key, required this.ble, required this.battery});
 
-  final QualifiedCharacteristic battery;
+  final qc.QualifiedCharacteristic battery;
   final FlutterReactiveBle ble;
 
   @override
@@ -17,7 +18,7 @@ class _BatteryCardState extends State<BatteryCard> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: widget.ble.readCharacteristic(widget.battery),
+      future: widget.battery.readCharacteristic(),
       builder: (context, snapshot) {
         Widget leadingIcon;
         String text;

@@ -1,4 +1,5 @@
-// Static class 
+// Static class
+import 'package:flutter/foundation.dart';
 import "package:flutter_reactive_ble/flutter_reactive_ble.dart";
 
 class Device {
@@ -12,4 +13,37 @@ class Device {
     "Battery": Uuid.parse("00002a19-0000-1000-8000-00805f9b34fb"),
     "Weight": Uuid.parse("99e8a6f3-85c2-4fb8-98d8-7e748c61b9c7")
   };
+
+  // Static streams simulating ESP32 functionnalities
+  static Stream<DiscoveredDevice> scanForDevices(
+      {required List<Uuid> withServices}) async* {
+    if (withServices == services.values.toList()) {
+      while (true) {
+        await Future.delayed(const Duration(seconds: 1));
+        yield DiscoveredDevice(
+            id: "1",
+            name: "Smart Mailbox",
+            serviceData: {},
+            manufacturerData: Uint8List(1),
+            rssi: 1,
+            serviceUuids: services.values.toList());
+      }
+    } else {
+      throw Exception("Wrong services");
+    }
+  }
+
+  static Stream<DeviceConnectionState> connectToAdvertisingDevice(
+      {required String id,
+      required Duration prescanDuration,
+      required List<Uuid> withServices}) async* {
+    if (id == "1" && withServices == services.values.toList()) {
+      while (true) {
+        await Future.delayed(const Duration(seconds: 1));
+        yield DeviceConnectionState.connected;
+      }
+    } else {
+      throw Exception("Wrong device id or services");
+    }
+  }
 }

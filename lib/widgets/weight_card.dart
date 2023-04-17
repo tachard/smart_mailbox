@@ -2,11 +2,12 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_reactive_ble/flutter_reactive_ble.dart';
+import "../api/qualified_characteristic.dart" as qc;
 
 class WeightCard extends StatefulWidget {
   WeightCard({super.key, required this.ble, required this.weight});
 
-  final QualifiedCharacteristic weight;
+  final qc.QualifiedCharacteristic weight;
   final FlutterReactiveBle ble;
 
   @override
@@ -24,7 +25,7 @@ class _WeightCardState extends State<WeightCard> {
 
     // Build depending of Future solve.
     return FutureBuilder(
-        future: widget.ble.readCharacteristic(widget.weight),
+        future: widget.weight.readCharacteristic(),
         builder: (context, snapshot) {
           Widget central;
           String info;

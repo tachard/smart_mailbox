@@ -5,6 +5,7 @@ import "package:flutter_reactive_ble/flutter_reactive_ble.dart";
 import 'package:smart_mailbox/widgets/battery_card.dart';
 import 'package:smart_mailbox/widgets/weight_card.dart';
 import "../api/device.dart";
+import "../api/qualified_characteristic.dart" as qc;
 
 class DeviceConnectionChecker extends StatefulWidget {
   DeviceConnectionChecker({super.key, required this.ble});
@@ -24,8 +25,8 @@ class _DeviceConnectionCheckerState extends State<DeviceConnectionChecker> {
     // If no device connected
     if (device == null) {
       return StreamBuilder(
-        stream: widget.ble
-            .scanForDevices(withServices: Device.services.values.toList()),
+        stream: Device.scanForDevices(
+            withServices: Device.services.values.toList()),
         builder: (context, snapshot) {
           List<Widget> children;
           if (snapshot.hasError) {
@@ -70,7 +71,7 @@ class _DeviceConnectionCheckerState extends State<DeviceConnectionChecker> {
     } else {
       // Device found
       return StreamBuilder(
-          stream: widget.ble.connectToAdvertisingDevice(
+          stream: Device.connectToAdvertisingDevice(
               id: device!.id,
               prescanDuration: Duration(seconds: 1),
               withServices: Device.services.values.toList()),
@@ -89,13 +90,13 @@ class _DeviceConnectionCheckerState extends State<DeviceConnectionChecker> {
             } else {
               switch (snapshot.connectionState) {
                 case ConnectionState.active:
-                  switch (snapshot.data!.connectionState) {
+                  switch (snapshot.data!) {
                     case DeviceConnectionState.connected:
-                      var batteryCharacteristic = QualifiedCharacteristic(
+                      var batteryCharacteristic = qc.QualifiedCharacteristic(
                           serviceId: Device.services["Battery"]!,
                           characteristicId: Device.characteristics["Battery"]!,
                           deviceId: device!.id);
-                      var weightCharacteristic = QualifiedCharacteristic(
+                      var weightCharacteristic = qc.QualifiedCharacteristic(
                           serviceId: Device.services["Weight"]!,
                           characteristicId: Device.characteristics["Weight"]!,
                           deviceId: device!.id);
