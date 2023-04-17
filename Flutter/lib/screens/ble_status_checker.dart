@@ -16,6 +16,18 @@ class _BleStatusCheckerState extends State<BleStatusChecker> {
   // Bluetooth Low Energy Variables.
   final _ble = FlutterReactiveBle();
 
+  Future<void> askPermissions() async {
+    await Permission.location.request();
+    await Permission.bluetoothScan.request();
+    await Permission.bluetoothConnect.request();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    askPermissions();
+  }
+
   @override
   Widget build(BuildContext context) {
     // Show something depending on host BLE status stream
@@ -61,9 +73,6 @@ class _BleStatusCheckerState extends State<BleStatusChecker> {
                   children = [DeviceConnectionChecker(ble: _ble)];
                   break;
                 case BleStatus.unauthorized:
-                  Permission.location.request();
-                  Permission.bluetoothScan.request();
-                  Permission.bluetoothConnect.request();
                   children = [
                     Card(
                       child: ListTile(

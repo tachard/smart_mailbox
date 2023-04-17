@@ -2,8 +2,9 @@
   xmlns:android="http://schemas.android.com/apk/res/android"
   package="com.example.smart_mailbox"
 >
+<!--Name and icon of app-->
    <application
-    android:label="smart_mailbox"
+    android:label="Smart Mailbox"
     android:name="${applicationName}"
     android:icon="@mipmap/ic_launcher"
   >
