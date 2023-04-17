@@ -49,4 +49,6 @@ Dans la suite sera détaillée la procédure d'installation pour chaque OS.
 
 Téléchargez l'exécutable en .apk dans l'onglet Releases du projet.
 
-Dans les paramètres du téléphone, allez dans la page *A propos du téléphone*
+Allez dans votre application de gestion des fichiers et lancez l'exécutable. Normalement, l'appareil vous demandera d'autoriser l'installation d'applications par des sources inconnues en vous redirigeant vers les paramètres de votre téléphone. Autorisez cela. Il se peut que vous deviez réessayer de lancer l'exécutable.
+
+Une fois l'installation finie, ouvrez l'application.
