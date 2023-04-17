@@ -44,7 +44,7 @@ Pour lancer le projet, je recommande d'utiliser un émulateur Android ou son pro
 
 ## Installations sur le téléphone
 
-L'objectif est d'installer l'un des exécutables présents [ici](lien vers releases). Pour chaque OS (Android ou iOS), il existe 2 exécutables :
+L'objectif est d'installer l'un des exécutables présents [ici](https://github.com/tachard/smart_mailbox/releases). Pour chaque OS (Android ou iOS), il existe 2 exécutables :
 - Celle suffixée par test, prévue pour simuler sur le téléphone la présence du dispositif physique
 - Celle sans suffixe, prévue pour fonctionner avec l'ESP32 du dispositif physique.
 
