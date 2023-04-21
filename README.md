@@ -15,34 +15,38 @@ Ce dossier *Flutter* dispose de beaucoup de dossiers utilisés pour la compilati
 
 ## Récupération du code
 
-### Clonage du repository
-
-Afin de récupérer le repository, il est nécessaire d'[installer Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git). Une fois isntallé, ouvrez un terminal de commandes (sous Windows ou dans un IDE comme Visual Studio Code) et lancez les commande suivante :
+Afin de récupérer le repository, il est nécessaire d'[installer Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git). Une fois isntallé, ouvrez un terminal de commandes (sous Windows ou dans un IDE comme Visual Studio Code) et lancez les commandes suivantes :
 ```
-cd [chemin vers le dossier que vous voulez]
-git clone [insérer le lien]
+cd [chemin vers le dossier où vous voulez télécharger le repo]
+git clone https://github.com/tachard/smart_mailbox/
 ```
-### Ouverture du projet d'application
 
 Ouvrez ensuite le dossier dans Visual Studio Code.
 Dans Visual Studio Code, installez aussi l'extension **Flutter**.
 Vous disposez alos de quoi lire le projet d'application mobile.
 
-Le projet est versionné par Git. Il dispose de 2 branches :
-- *master* qui contient le code de l'application nécessitant un ESP32.
-- *test* qui contient le code l'application modifié, permettant de simuler l'ESP32 sans nécessairement en avoir un.
+Le projet est versionné par Git. Il dispose de 3 branches :
+- *master* qui contient le code le plus récent (donc après la date de rendu)
+- *renduP2I* qui contient le code de l'application nécessitant un ESP32.
+- *test* qui contient le code de l'application modifiée, permettant de simuler le comportement de l'ESP32 sans nécessairement en avoir un.
 
 Il est possible de passer de l'un à l'autre avec la commande :
 ```
-git checkout [nom de branche]
+git checkout [nom de la branche]
 ```
 
-### Lancement du projet
+## Lancement du projet
 
 Afin de pouvoir lancer le projet, il faut préalablement installer le SDK Flutter dont le mode d'emploi est [ici](https://docs.flutter.dev/get-started/install).
-Pour lancer le projet, je recommande d'utiliser un émulateur Android ou son propre téléphone, le tutoriel est disponible [ici (partie *Run the app*)](https://docs.flutter.dev/get-started/test-drive?tab=vscode). Autrement, il est possible d'installer directement les exécutables sur son téléphone.
+Pour lancer le projet, il est nécessaire d'utiliser son propre téléphone Android, soit via Visual Studio Code, soit via téléchargement d'un exécutable .apk.
 
-## Installation sur le téléphone
+### Installation par Visual Studio Code
+
+Afin de lancer l'application sur votre téléphone Android, munissez-vous d'un câble afin de le connecter à votre ordinateur. Avant tout, il faut autoriser des paramètres de développement sur votre téléphone. Pour ce faire, allez dans les paramètres du téléphone, rubrique "Plus d'informations sur l'appareil" ou équivalent et cherchez le **numéro de build** dans les informations logicielles. Cliquez sur cette information 7 fois afin de débloquer les options développeur. Une fois le menu débloqué, allez dans celui-ci et activez le **débogage USB**.
+
+Branchez votre téléphone à votre ordinateur et sélectionnez l'option "Transférer des fichers" sur le téléphone. Sur Visual Studio, en bas à droite, vous pouvez choisir vers quel appareil lancer l'application (Web, Windows ...) et choisissez votre appareil. Une fois fait, appuyer sur **F5** pour lancer l'application sur votre téléphone. Veillez à ce qu'il ne soit pas en veille.
+
+### Installation d'un exécutable
 
 L'objectif est d'installer l'un des exécutables présents [ici](https://github.com/tachard/smart_mailbox/releases). Il existe 2 exécutables, uniquement pour Android :
 - Celle suffixée par test, prévue pour simuler sur le téléphone la présence du dispositif physique
