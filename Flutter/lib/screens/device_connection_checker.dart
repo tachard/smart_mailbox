@@ -92,17 +92,6 @@ class _DeviceConnectionCheckerState extends State<DeviceConnectionChecker> {
                   switch (snapshot.data!.connectionState) {
                     case DeviceConnectionState.connected:
                       // Retrieve characteriscs
-                      final timeCharacteristic = QualifiedCharacteristic(
-                          serviceId: Device.services["Time"]!,
-                          characteristicId: Device.characteristics["Time"]!,
-                          deviceId: device!.id);
-                      // Write time characteristics in milliseconds since Epoch
-                      widget.ble.writeCharacteristicWithoutResponse(
-                          timeCharacteristic,
-                          value: DateTime.now()
-                              .millisecondsSinceEpoch
-                              .toString()
-                              .codeUnits);
                       var batteryCharacteristic = QualifiedCharacteristic(
                           serviceId: Device.services["Battery"]!,
                           characteristicId: Device.characteristics["Battery"]!,

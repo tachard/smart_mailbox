@@ -23,8 +23,8 @@ class _WeightCardState extends State<WeightCard> {
         .copyWith(fontSize: 20, fontStyle: FontStyle.italic);
 
     // Build depending of Future solve.
-    return FutureBuilder(
-        future: widget.ble.readCharacteristic(widget.weight),
+    return StreamBuilder(
+        stream: widget.ble.subscribeToCharacteristic(widget.weight),
         builder: (context, snapshot) {
           Widget central;
           String info;
@@ -35,7 +35,7 @@ class _WeightCardState extends State<WeightCard> {
           } else {
             print(snapshot.connectionState);
             switch (snapshot.connectionState) {
-              case ConnectionState.done:
+              case ConnectionState.active:
                 // weight can be read.
                 // Choose the info text depending on the weight
                 var weight = int.parse(String.fromCharCodes(snapshot.data!));

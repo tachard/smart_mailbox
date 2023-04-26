@@ -39,7 +39,6 @@ class MyServerCallbacks: public BLEServerCallbacks {
 
     void onDisconnect(BLEServer* pServer) {
       deviceConnected = false;
-      pServer->startAdvertising();
     }
 };
 
@@ -49,25 +48,12 @@ class MyServerCallbacks: public BLEServerCallbacks {
 ESP32Time rtc(3600);                     /* Time object with 1 hour offset (winter french time)*/
 HX711 scale;
 
-
-class MyCharacteristicCallbacks: public BLECharacteristicCallbacks {
-
-    void onWrite(BLECharacteristic *pCharacteristic)
-    {
-      /* Number of milliseconds since Epoch received */
-      int received_data = std::stoi(pCharacteristic->getValue());
-      Serial.println(received_data);
-      rtc.setTime(received_data);
-    }
-
-};
-
 /* Measures related constants variables and classes */
 /* HX711 circuit wiring */
 const int LOADCELL_DOUT_PIN = 16;
 const int LOADCELL_SCK_PIN = 4;
 /* Calibration factor, set with another program */
-const double CALIBRATION_FACTOR = 0;
+const double CALIBRATION_FACTOR = 756.865;
 
 /* Main code */
 /* Code run when starting (deep sleep included) */
@@ -102,25 +88,15 @@ void setup() {
                                                                      );
   pLoadCellCharacteristic->setValue("0");
   
-  /* Set the battery service and battery level characteristic */
-  BLEService *pTimeService = pServer->createService(TIME_SERVICE_UUID);
-  pTimeCharacteristic = pTimeService->createCharacteristic(
-                                                                       TIME_CHARACTERISTIC_UUID,
-                                                                       BLECharacteristic::PROPERTY_WRITE
-                                                                     );
-                                                                     
-  pTimeCharacteristic->setCallbacks(new MyCharacteristicCallbacks());
   
   /* Start services */
   pBatteryService->start();
   pLoadCellService->start();
-  pTimeService->start();
 
   /* Add advertising : Say that it's available */
   BLEAdvertising *pAdvertising = pServer->getAdvertising();
   pAdvertising->addServiceUUID(BATTERY_SERVICE_UUID);
   pAdvertising->addServiceUUID(LOAD_CELL_SERVICE_UUID);
-  pAdvertising->addServiceUUID(TIME_SERVICE_UUID);
   pAdvertising->setScanResponse(true);
   pAdvertising->setMinPreferred(0x06); 
   pAdvertising->start();
@@ -141,15 +117,18 @@ void loop() {
       long weight = scale.get_units(10);
       delay(100);
       /* Map voltage read with GPIO33 to percentage proportionnally (huge hypothesis) (0V = 0% and 3,3V = 100%)*/
-      float battery = map(analogRead(33), 0.0f, 4095.0f, 0, 100);
+      /*float battery = map(analogRead(33), 0.0f, 4095.0f, 0, 100);*/
       delay(100);
       
-      pBatteryLevelCharacteristic->setValue(std::to_string((int) battery));
+      /*pBatteryLevelCharacteristic->setValue(std::to_string((int) battery));*/
       pLoadCellCharacteristic->setValue(std::to_string((int) weight));
       delay(100);
-      pBatteryLevelCharacteristic->notify();
+      /*pBatteryLevelCharacteristic->notify();*/
       delay(100);
       pLoadCellCharacteristic->notify();
+    }
+    else {
+      pServer->startAdvertising();
     }
     
     /* Deep Sleep condition */
